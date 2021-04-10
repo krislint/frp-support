@@ -1,0 +1,39 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+ simple:
+  format: "%(asctime)s - %(filename)s - %(levelname)s - %(message)s"
+  datefmt: '%F %T'
+  
+handlers:
+ console:
+  class: logging.StreamHandler
+  level: DEBUG
+  formatter: simple
+  stream: ext://sys.stdout
+ info_file_handler:
+  class: logging.handlers.TimedRotatingFileHandler
+  level: DEBUG
+  formatter: simple
+  filename: logging.log #这个路径根据自己的日志存放路径填写
+  interval: 1
+  backupCount: 2 #most 2 extensions
+  encoding: utf8
+  when: H #这里是按小时生成
+ frp_file_handler:
+  class: logging.handlers.TimedRotatingFileHandler
+  level: DEBUG
+  formatter: simple
+  filename: frp.log #这个路径根据自己的日志存放路径填写
+  interval: 1
+  backupCount: 2 #most 2 extensions
+  encoding: utf8
+  when: H #这里是按小时生成
+root:
+ level: INFO
+ handlers: [console, info_file_handler]
+
+loggers:
+  frp:
+    level: INFO
+    handlers: [frp_file_handler]
